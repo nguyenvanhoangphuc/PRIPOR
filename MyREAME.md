@@ -1,3 +1,9 @@
+# Setup environment
+pip install -r requirements.txt
+pip install torch==1.11.0+cu113 -f https://download.pytorch.org/whl/torch_stable.html
+conda install -c conda-forge faiss-gpu
+
+# Training
 ## Phase 1: Relevance-Based DocID initialization (M0)
 batch_size = 4 => train tốn 7.8G
 batch_size = 16 => train tốn 
