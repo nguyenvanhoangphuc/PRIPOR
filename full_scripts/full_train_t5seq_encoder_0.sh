@@ -18,8 +18,9 @@ export CUDA_VISIBLE_DEVICES=1
 
 # python -m torch.distributed.launch --nproc_per_node=8 -m t5_pretrainer.main \
 # --per_device_train_batch_size=64 \
+# --epochs=50 \
 python -m t5_pretrainer.main \
-        --epochs=50 \
+        --max_steps=10 \
         --run_name=$run_name \
         --learning_rate=1e-4 \
         --loss_type=t5seq_pretrain_margin_mse \
@@ -32,6 +33,6 @@ python -m t5_pretrainer.main \
         --use_fp16 \
         --collection_path=$collection_path \
         --max_length=128 \
-        --per_device_train_batch_size=16 \
+        --per_device_train_batch_size=8 \
         --queries_path=$queries_path \
         --pretrained_path=$pretrained_path 

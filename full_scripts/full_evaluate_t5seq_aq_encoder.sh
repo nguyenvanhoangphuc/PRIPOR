@@ -1,6 +1,10 @@
 #!/bin/bash
 
-task=t5seq_aq_retrieve_docids_use_sub_smtid
+export CUDA_LAUNCH_BLOCKING=1
+export CUDA_VISIBLE_DEVICES=1
+
+# task=t5seq_aq_retrieve_docids_use_sub_smtid # default
+task=all_aq_pipline # after M0, M1
 data_root_dir=./data/msmarco-full
 collection_path=$data_root_dir/full_collection/
 q_collection_paths='["./data/msmarco-full/TREC_DL_2019/queries_2019/","./data/msmarco-full/TREC_DL_2020/queries_2020/","./data/msmarco-full/dev_queries/"]'
@@ -8,7 +12,7 @@ eval_qrel_path='["./data/msmarco-full/dev_qrel.json","./data/msmarco-full/TREC_D
 experiment_dir=RIPOR_data/experiments-full-t5seq-aq
 
 if [ $task = all_aq_pipline ]; then 
-    echo "task: $task"
+    echo "task: $task"q á
 
     model_dir="./$experiment_dir/t5_docid_gen_encoder_1"
     pretrained_path=$model_dir/checkpoint

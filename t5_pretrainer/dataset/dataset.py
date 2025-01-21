@@ -680,3 +680,83 @@ class MarginMSEforPretrainDataset(Dataset):
         else:
             return q_pos, q_neg, d_pos, d_neg, pos_prev_smtids, neg_prev_smtids, s_pos, s_neg, \
             d_pos_decoder_input_ids, d_neg_decoder_input_ids, q_pos_decoder_input_ids, q_neg_decoder_input_ids
+    
+if __name__=='__main__':
+    # data_root_dir="./data/msmarco-full"
+    # collection_path=f"{data_root_dir}/full_collection/"
+    # # Test CollectionDatasetPreLoad
+    # collection_dataset = CollectionDatasetPreLoad(collection_path, id_style='content_id')
+    # print(collection_dataset['123456'])  # Output: ('123456', 'This is a test document.')
+    
+    # # lưu lại split_dataset vào thư mục split_data/msmarco-full/full_collection/ với cấu trúc như ban đầu nhưng chỉ chứa 10 phần tử
+    # split_data_dir = "./split_data/msmarco-full/full_collection"
+    # os.makedirs(split_data_dir, exist_ok=True)
+    # output_file = os.path.join(split_data_dir, "raw.tsv")
+    # # Lấy 10 phần tử đầu tiên thông qua chỉ mục
+    # split_dataset = [(collection_dataset[idx][0], collection_dataset[idx][1]) for idx in range(10)]
+    # # Lưu vào file
+    # with open(output_file, "w") as writer:
+    #     for doc_id, content in split_dataset:
+    #         writer.write(f"{doc_id}\t{content}\n")
+    # print(f"Split dataset saved at {output_file}")
+
+    # # Xử lý cho file train tương tự
+    # queries_path="./data/msmarco-full/all_train_queries/train_queries"
+    # query_dataset = CollectionDatasetPreLoad(queries_path, id_style='content_id')
+    # print(query_dataset['510633'])
+    # split_data_dir = "./split_data/msmarco-full/all_train_queries/train_queries"
+    # os.makedirs(split_data_dir, exist_ok=True)
+    # output_file = os.path.join(split_data_dir, "raw.tsv")
+    # # Lấy 10 phần tử đầu tiên thông qua chỉ mục (chỉ mục có thể không tăng dần từ 1)
+    # # split_dataset = [(query_dataset[idx][0], query_dataset[idx][1]) for idx in range(10)] # lỗi vì chỉ mục không tăng dần từ 1
+    # # cách khác
+    # split_dataset = []
+    # for key, value in query_dataset.data_dict.items():
+    #     split_dataset.append((key, value))
+    #     if len(split_dataset) == 10:
+    #         break
+    # with open(output_file, "w") as writer:
+    #     for doc_id, content in split_dataset:
+    #         writer.write(f"{doc_id}\t{content}\n")
+    # print(f"Split dataset saved at {output_file}")
+
+    # Xử lý teacher_score_path
+    # Xử lý tương tự code sau: 
+    # self.examples = []
+    #     with open(dataset_path) as fin:
+    #         for line in fin:
+    #             self.examples.append(ujson.loads(line))
+
+    #     if docid_to_smtid_path is not None:
+    #         with open(docid_to_smtid_path) as fin: 
+    #             self.docid_to_smtid = ujson.load(fin)
+    #         tmp_docids = list(self.docid_to_smtid.keys())
+    #         assert self.docid_to_smtid[tmp_docids[0]][0] == -1, self.docid_to_smtid[tmp_docids[0]]
+    #     else:
+    #         self.docid_to_smtid = None 
+    teacher_score_path="./data/msmarco-full/bm25_run/qrel_added_qid_docids_teacher_scores.train.json"
+    teacher_scores = []
+    with open(teacher_score_path) as fin:
+        for line in fin:
+            teacher_scores.append(ujson.loads(line))
+    # Lấy 10 phần tử đầu tiên và lưu lại với cấu trúc như ban đầu 
+    # Kiểm tra phần tử đầu tiên
+    print("Phần tử đầu tiên:", teacher_scores[0])
+
+    # Trích 10 phần tử đầu tiên
+    subset_scores = teacher_scores[:10]
+
+    # Đường dẫn file xuất ra
+    output_path = "./data/msmarco-full/bm25_run/qrel_added_qid_docids_teacher_scores_subset.json"
+
+    # Ghi lại 10 phần tử đầu tiên vào file mới
+    with open(output_path, "w") as fout:
+        for score in subset_scores:
+            fout.write(ujson.dumps(score) + "\n")
+
+    print(f"Đã lưu 10 phần tử đầu tiên vào {output_path}")
+
+
+
+
+    

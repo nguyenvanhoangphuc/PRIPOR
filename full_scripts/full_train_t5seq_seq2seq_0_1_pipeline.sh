@@ -1,6 +1,6 @@
 #!/bin/bash
 task=t5seq_aq_encoder_seq2seq
-experiment_dir=experiments-full-t5seq-aq
+experiment_dir=RIPOR_data/experiments-full-t5seq-aq
 
 
 # seq2seq_0
@@ -12,7 +12,7 @@ output_dir="./$experiment_dir/"
 
 # need to change for every experiment
 model_dir="./$experiment_dir/t5_docid_gen_encoder_1"
-pretrained_path=$model_dir/no_share_checkpoint/
+pretrained_path=$model_dir/checkpoint/  # no_share_checkpoint
 run_name=t5seq_aq_encoder_seq2seq_0
 
 # Set the device to a single GPU (e.g., GPU 1)
@@ -20,8 +20,10 @@ export CUDA_VISIBLE_DEVICES=1
 
 # train
 # python -m torch.distributed.launch --nproc_per_node=8 -m t5_pretrainer.main \
+# --max_steps=250_000 \
+# --save_steps=50_000 \
 python -m t5_pretrainer.main \
-        --max_steps=250_000 \
+        --max_steps=10 \
         --run_name=$run_name  \
         --learning_rate=1e-3 \
         --loss_type=$task \
@@ -32,7 +34,7 @@ python -m t5_pretrainer.main \
         --query_to_docid_path=$query_to_docid_path \
         --docid_to_smtid_path=$docid_to_smtid_path \
         --output_dir=$output_dir \
-        --save_steps=50_000 \
+        --save_steps=10 \
         --task_names='["rank"]' \
         --wandb_project_name=full_t5seq_encoder \
         --use_fp16 \
@@ -54,7 +56,8 @@ pretrained_path=$model_dir/checkpoint
 run_name=t5seq_aq_encoder_seq2seq_1
 
 # also need to be changed by condition
-teacher_score_path=$data_dir/out/MSMARCO_TRAIN/qrel_added_qid_docids_teacher_scores.train.json
+# teacher_score_path=$data_dir/out/MSMARCO_TRAIN/qrel_added_qid_docids_teacher_scores.train.json
+teacher_score_path=./data/msmarco-full/bm25_run/qrel_added_qid_docids_teacher_scores.train.json
 
 python -m torch.distributed.launch --nproc_per_node=8 -m t5_pretrainer.main \
         --epochs=150 \
