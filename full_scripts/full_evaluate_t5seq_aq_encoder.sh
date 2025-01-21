@@ -5,7 +5,7 @@ data_root_dir=./data/msmarco-full
 collection_path=$data_root_dir/full_collection/
 q_collection_paths='["./data/msmarco-full/TREC_DL_2019/queries_2019/","./data/msmarco-full/TREC_DL_2020/queries_2020/","./data/msmarco-full/dev_queries/"]'
 eval_qrel_path='["./data/msmarco-full/dev_qrel.json","./data/msmarco-full/TREC_DL_2019/qrel.json","./data/msmarco-full/TREC_DL_2019/qrel_binary.json","./data/msmarco-full/TREC_DL_2020/qrel.json","./data/msmarco-full/TREC_DL_2020/qrel_binary.json"]'
-experiment_dir=experiments-full-t5seq-aq
+experiment_dir=RIPOR_data/experiments-full-t5seq-aq
 
 if [ $task = all_aq_pipline ]; then 
     echo "task: $task"

@@ -5,7 +5,7 @@ collection_path=$data_root_dir/full_collection/
 queries_path=./data/msmarco-full/all_train_queries/train_queries
 
 # model dir
-experiment_dir=experiments-full-t5seq-aq
+experiment_dir=RIPOR_data/experiments-full-t5seq-aq
 pretrained_path=t5-base
 
 # train_examples path
@@ -13,7 +13,12 @@ teacher_score_path=./data/msmarco-full/bm25_run/qrel_added_qid_docids_teacher_sc
 run_name=t5_docid_gen_encoder_0
 output_dir="./$experiment_dir/"
 
-python -m torch.distributed.launch --nproc_per_node=8 -m t5_pretrainer.main \
+# Set the device to a single GPU (e.g., GPU 1)
+export CUDA_VISIBLE_DEVICES=1
+
+# python -m torch.distributed.launch --nproc_per_node=8 -m t5_pretrainer.main \
+# --per_device_train_batch_size=64 \
+python -m t5_pretrainer.main \
         --epochs=50 \
         --run_name=$run_name \
         --learning_rate=1e-4 \
@@ -27,6 +32,6 @@ python -m torch.distributed.launch --nproc_per_node=8 -m t5_pretrainer.main \
         --use_fp16 \
         --collection_path=$collection_path \
         --max_length=128 \
-        --per_device_train_batch_size=64 \
+        --per_device_train_batch_size=16 \
         --queries_path=$queries_path \
         --pretrained_path=$pretrained_path 

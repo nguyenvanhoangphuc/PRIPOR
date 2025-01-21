@@ -501,6 +501,8 @@ def t5seq_aq_retrieve_docids_2(args):
         # merge
         qid_to_rankdata = {}
         sub_paths = [p for p in os.listdir(out_dir) if "run" in p]
+        print("===="*10)
+        print("sub_paths: ", sub_paths)
         assert len(sub_paths) == torch.cuda.device_count()
         for sub_path in sub_paths:
             with open(os.path.join(out_dir, sub_path)) as fin:

@@ -5,7 +5,7 @@ collection_path=$data_root_dir/full_collection/
 queries_path=./data/msmarco-full/all_train_queries/train_queries
 
 # model dir
-experiment_dir=experiments-full-t5seq-aq
+experiment_dir=RIPOR_data/experiments-full-t5seq-aq
 model_dir="./$experiment_dir/t5_docid_gen_encoder_0"
 pretrained_path=$model_dir/checkpoint/
 
