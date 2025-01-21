@@ -15,8 +15,12 @@ model_dir="./$experiment_dir/t5_docid_gen_encoder_1"
 pretrained_path=$model_dir/no_share_checkpoint/
 run_name=t5seq_aq_encoder_seq2seq_0
 
+# Set the device to a single GPU (e.g., GPU 1)
+export CUDA_VISIBLE_DEVICES=1
+
 # train
-python -m torch.distributed.launch --nproc_per_node=8 -m t5_pretrainer.main \
+# python -m torch.distributed.launch --nproc_per_node=8 -m t5_pretrainer.main \
+python -m t5_pretrainer.main \
         --max_steps=250_000 \
         --run_name=$run_name  \
         --learning_rate=1e-3 \
